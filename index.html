@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dev | Enactus FTU Hanoi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .container {
+            background: #f5f5f5;
+            padding: 30px;
+            border-radius: 10px;
+        }
+        .welcome {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .user-info {
+            background: white;
+            padding: 15px;
+            border-left: 4px solid #4285f4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="welcome">🔐 Admin Portal</h1>
+        <p>Chào mừng đến trang quản trị</p>
+        
+        <div class="user-info">
+            <p><strong>Email:</strong> <span id="user-email">Loading...</span></p>
+            <p><strong>IP:</strong> <span id="user-ip">Loading...</span></p>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <h3>Quick Links:</h3>
+            <ul>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/settings">Settings</a></li>
+                <li><a href="/users">User Management</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Lấy thông tin user từ Cloudflare Access headers
+        fetch('/cdn-cgi/access/get-user')
+            .then(response => response.json())
+            .then(data => {
+                if (data.email) {
+                    document.getElementById('user-email').textContent = data.email;
+                }
+            });
+        
+        // Lấy IP
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('user-ip').textContent = data.ip;
+            });
+    </script>
+</body>
+</html>
