@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Thành viên | Enactus FTU Hanoi</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Import styles from dashboard */
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --primary-dark: #3a0ca3;
+            --secondary: #f72585;
+            --accent: #4cc9f0;
+            
+            --white: #ffffff;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --info: #3b82f6;
+            
+            --md-color: #3b82f6;
+            --hr-color: #10b981;
+            --pd-color: #f59e0b;
+            --er-color: #8b5cf6;
+            
+            --border-radius: 16px;
+            --border-radius-sm: 8px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: var(--gray-50);
+            color: var(--gray-800);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .page-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gray-900), var(--gray-700));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-secondary {
+            background: var(--white);
+            color: var(--gray-700);
+            border: 1px solid var(--gray-300);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--gray-50);
+        }
+        
+        /* Filters */
+        .filters {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+        }
+        
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .filter-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+        
+        .filter-input, .filter-select {
+            padding: 10px 12px;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--border-radius-sm);
+            font-size: 14px;
+            background: var(--white);
+            transition: var(--transition);
+        }
+        
+        .filter-input:focus, .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+        }
+        
+        .search-box input {
+            padding-left: 40px;
+            width: 100%;
+        }
+        
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .stat-box {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--white);
+        }
+        
+        .stat-icon.MD { background: var(--md-color); }
+        .stat-icon.HR { background: var(--hr-color); }
+        .stat-icon.PD { background: var(--pd-color); }
+        .stat-icon.ER { background: var(--er-color); }
+        
+        .stat-content {
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Members Table */
+        .table-container {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .members-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .members-table th {
+            background: var(--gray-50);
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--gray-700);
+            font-size: 14px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .members-table td {
+            padding: 16px;
+            border-bottom: 1px solid var(--gray-200);
+            font-size: 14px;
+        }
+        
+        .members-table tr:hover {
+            background: var(--gray-50);
+        }
+        
+        .member-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .member-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .member-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .member-avatar.placeholder {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--white);
+            font-weight: 600;
+        }
+        
+        .member-details {
+            flex: 1;
+        }
+        
+        .member-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .member-id {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+        
+        .department-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .department-MD {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--md-color);
+        }
+        
+        .department-HR {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--hr-color);
+        }
+        
+        .department-PD {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--pd-color);
+        }
+        
+        .department-ER {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--er-color);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-active {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+        
+        .status-inactive {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: none;
+            background: var(--gray-100);
+            color: var(--gray-600);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .action-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: var(--white);
+            border-top: 1px solid var(--gray-200);
+        }
+        
+        .pagination-info {
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+        
+        .pagination-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .page-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--gray-300);
+            background: var(--white);
+            color: var(--gray-700);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .page-btn.active {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+        
+        .page-btn:hover:not(.active) {
+            background: var(--gray-50);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray-500);
+        }
+        
+        .modal-body {
+            padding: 24px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--border-radius-sm);
+            font-size: 14px;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--gray-200);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+            
+            .header-actions {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+            
+            .members-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        /* Detail Modal Styles */
+        .info-item { margin-bottom: 12px; }
+        .info-label { font-size: 12px; color: var(--gray-500); margin-bottom: 4px; }
+        .info-value { font-weight: 500; color: var(--gray-800); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div>
+                <h1 class="page-title">Quản lý Thành viên</h1>
+                <p style="color: var(--gray-500); margin-top: 8px;">Quản lý thông tin thành viên Enactus FTU Hanoi</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-secondary" onclick="exportData()">
+                    <i class="fas fa-download"></i> Export
+                </button>
+                <button class="btn btn-primary" onclick="openMemberModal()">
+                    <i class="fas fa-user-plus"></i> Thêm thành viên
+                </button>
+            </div>
+        </header>
+        
+        <div class="stats-bar">
+            <div class="stat-box">
+                <div class="stat-icon MD">
+                    <i class="fas fa-bullhorn"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="stat-md">0</div>
+                    <div class="stat-label">Truyền thông</div>
+                </div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-icon HR">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="stat-hr">0</div>
+                    <div class="stat-label">Nhân sự</div>
+                </div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-icon PD">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="stat-pd">0</div>
+                    <div class="stat-label">Dự án</div>
+                </div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-icon ER">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value" id="stat-er">0</div>
+                    <div class="stat-label">Đối ngoại</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="filters">
+            <div class="filter-grid">
+                <div class="filter-group search-box">
+                    <div class="filter-label">Tìm kiếm</div>
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="filter-input" placeholder="Tìm theo tên, ID, email...">
+                </div>
+                <div class="filter-group">
+                    <div class="filter-label">Ban</div>
+                    <select class="filter-select" id="filter-dept">
+                        <option value="">Tất cả ban</option>
+                        <option value="MD">Truyền thông</option>
+                        <option value="HR">Nhân sự</option>
+                        <option value="PD">Dự án</option>
+                        <option value="ER">Đối ngoại</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <div class="filter-label">Gen</div>
+                    <select class="filter-select" id="filter-gen">
+                        <option value="">Tất cả Gen</option>
+                        <option value="17">Gen 17</option>
+                        <option value="18">Gen 18</option>
+                        <option value="19">Gen 19</option>
+                        <option value="20">Gen 20</option>
+                        <option value="21">Gen 21</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <div class="filter-label">Trạng thái</div>
+                    <select class="filter-select" id="filter-status">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="table-container">
+            <table class="members-table">
+                <thead>
+                    <tr>
+                        <th>Thành viên</th>
+                        <th>Ban</th>
+                        <th>Gen</th>
+                        <th>Vị trí</th>
+                        <th>Email</th>
+                        <th>Trạng thái</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="members-table-body">
+                    </tbody>
+            </table>
+            
+            <div class="pagination">
+                <div class="pagination-info">Đang tải dữ liệu...</div>
+                <div class="pagination-controls">
+                    </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="member-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Thêm thành viên mới</h2>
+                <button class="modal-close" onclick="closeMemberModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="member-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Họ và tên *</label>
+                            <input type="text" class="form-control" id="fullname" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Ngày sinh *</label>
+                            <input type="date" class="form-control" id="dob" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Ban *</label>
+                            <select class="form-control" id="department" required>
+                                <option value="">Chọn ban</option>
+                                <option value="MD">Truyền thông (MD)</option>
+                                <option value="HR">Nhân sự - Sự kiện (HR)</option>
+                                <option value="PD">Dự án (PD)</option>
+                                <option value="ER">Đối ngoại (ER)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Gen *</label>
+                            <input type="number" class="form-control" id="gen" min="1" max="30" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Vị trí *</label>
+                            <select class="form-control" id="position" required>
+                                <option value="">Chọn vị trí</option>
+                                <option value="member">Thành viên</option>
+                                <option value="deputy">Phó ban</option>
+                                <option value="head">Trưởng ban</option>
+                                <option value="vice_chairman">Phó chủ tịch</option>
+                                <option value="chairman">Chủ tịch</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Role *</label>
+                            <select class="form-control" id="role" required>
+                                <option value="member">Thành viên</option>
+                                <option value="admin">Admin</option>
+                                <option value="super_admin">Super Admin</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Số điện thoại *</label>
+                            <input type="tel" class="form-control" id="phone" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Email cá nhân</label>
+                            <input type="email" class="form-control" id="email_personal">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Email công việc</label>
+                            <input type="email" class="form-control" id="email_work" readonly>
+                            <small style="color: var(--gray-500); font-size: 12px;">Tự động tạo từ username</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Trạng thái *</label>
+                            <select class="form-control" id="status" required>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Ảnh đại diện</label>
+                            <input type="file" class="form-control" id="avatar" accept="image/*">
+                        </div>
+                    </div>
+                    
+                    <div style="background: var(--gray-50); padding: 16px; border-radius: var(--border-radius-sm); margin: 20px 0;">
+                        <h4 style="margin-bottom: 12px; color: var(--gray-700);">Thông tin tự động</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                            <div>
+                                <label style="font-size: 12px; color: var(--gray-500);">Member ID</label>
+                                <div id="generated-id" style="font-weight: 600; font-family: monospace;">-</div>
+                            </div>
+                            <div>
+                                <label style="font-size: 12px; color: var(--gray-500);">Username</label>
+                                <div id="generated-username" style="font-weight: 600;">-</div>
+                            </div>
+                            <div>
+                                <label style="font-size: 12px; color: var(--gray-500);">Password</label>
+                                <div style="font-weight: 600; color: var(--success);">Enactus@123</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeMemberModal()">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Lưu thành viên</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+
+<script>
+    // --- KHAI BÁO BIẾN TOÀN CỤC ---
+    let allMembers = [];
+    let currentPage = 1;
+    const membersPerPage = 10;
+    
+    // --- DOMContentLoaded: Khởi tạo khi trang tải xong ---
+    document.addEventListener('DOMContentLoaded', async function() {
+        console.log('🚀 Ứng dụng đang khởi chạy...');
+        
+        // Kiểm tra Supabase
+        if (typeof supabase === 'undefined') {
+            console.error('❌ Supabase chưa được khởi tạo. Kiểm tra file supabase-config.js');
+            alert('Lỗi: Không kết nối được cơ sở dữ liệu (Supabase is not defined).');
+            return;
+        }
+
+        // Tải dữ liệu ban đầu
+        await loadMembersFromSupabase();
+        
+        // Setup Form Auto-Generation Listeners (ID, Username...)
+        const form = document.getElementById('member-form');
+        const inputs = ['fullname', 'dob', 'department', 'gen'];
+        inputs.forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.addEventListener('change', updateGeneratedInfo);
+            if(el) el.addEventListener('input', updateGeneratedInfo);
+        });
+
+        // Setup Form Submit
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveMember();
+            });
+        }
+
+        // Setup Search & Filters Listeners
+        const searchInput = document.querySelector('.filter-input');
+        const filterIds = ['filter-dept', 'filter-gen', 'filter-status'];
+        
+        if (searchInput) searchInput.addEventListener('input', applyFilters);
+        filterIds.forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.addEventListener('change', applyFilters);
+        });
+    });
+
+    // --- CÁC HÀM XỬ LÝ GLOBAL (Được gọi từ HTML onclick) ---
+
+    // 1. Quản lý Modal Thêm/Sửa
+    function openMemberModal() {
+        const modal = document.getElementById('member-modal');
+        if (modal) {
+            modal.classList.add('active');
+            const modalTitle = document.querySelector('.modal-title');
+            if (modalTitle) modalTitle.textContent = 'Thêm thành viên mới';
+            
+            // Reset form khi mở modal mới (nếu không phải edit)
+            const form = document.getElementById('member-form');
+            if (!form.dataset.memberId) {
+                form.reset();
+                document.getElementById('generated-id').textContent = '-';
+                document.getElementById('generated-username').textContent = '-';
+            }
+        }
+    }
+
+    function closeMemberModal() {
+        const modal = document.getElementById('member-modal');
+        if (modal) modal.classList.remove('active');
+        
+        const form = document.getElementById('member-form');
+        if (form) {
+            form.reset();
+            delete form.dataset.memberId; // Xóa ID đang sửa
+            document.getElementById('generated-id').textContent = '-';
+            document.getElementById('generated-username').textContent = '-';
+            document.getElementById('email_work').value = '';
+        }
+    }
+
+    // 2. Tải dữ liệu từ Supabase
+    async function loadMembersFromSupabase() {
+        try {
+            const { data, error } = await supabase
+                .from('members')
+                .select('*')
+                .order('created_at', { ascending: false });
+            
+            if (error) throw error;
+            
+            allMembers = data || [];
+            console.log(`✅ Đã tải ${allMembers.length} thành viên`);
+            applyFilters(); // Render bảng thông qua bộ lọc
+            updateStats();
+            
+        } catch (error) {
+            console.error('❌ Lỗi tải dữ liệu:', error);
+            alert('Không thể tải danh sách thành viên: ' + error.message);
+        }
+    }
+
+    // 3. Render Bảng
+    function renderMembersTable(members) {
+        const tbody = document.getElementById('members-table-body');
+        if (!tbody) return;
+        
+        tbody.innerHTML = '';
+        
+        // Phân trang
+        const startIndex = (currentPage - 1) * membersPerPage;
+        const endIndex = startIndex + membersPerPage;
+        const pageMembers = members.slice(startIndex, endIndex);
+        
+        if (pageMembers.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 40px;">Không có dữ liệu</td></tr>`;
+            updatePagination(0);
+            return;
+        }
+        
+        pageMembers.forEach(member => {
+            const tr = document.createElement('tr');
+            // Xử lý an toàn cho chuỗi
+            const safeId = String(member.id).replace(/'/g, "\\'");
+            const safeName = String(member.fullname).replace(/'/g, "\\'");
+            
+            // Avatar
+            const firstLetter = member.fullname ? member.fullname.split(' ').pop().charAt(0).toUpperCase() : '?';
+            const avatarHtml = member.avatar_url 
+                ? `<img src="${member.avatar_url}" alt="${member.fullname}" class="member-avatar">`
+                : `<div class="member-avatar placeholder">${firstLetter}</div>`;
+
+            tr.innerHTML = `
+                <td>
+                    <div class="member-info">
+                        ${avatarHtml}
+                        <div class="member-details">
+                            <div class="member-name">${member.fullname}</div>
+                            <div class="member-id">${member.member_id || ''}</div>
+                        </div>
+                    </div>
+                </td>
+                <td><span class="department-badge department-${member.department}">${getDepartmentName(member.department)}</span></td>
+                <td>Gen ${member.gen}</td>
+                <td>${getPositionName(member.position)}</td>
+                <td>
+                    <div>${member.email_work || ''}</div>
+                    <small style="color:var(--gray-500)">${member.email_personal || ''}</small>
+                </td>
+                <td><span class="status-badge status-${member.status}">${member.status}</span></td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="action-btn" onclick="editMember('${safeId}')" title="Sửa"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn" onclick="deleteMember('${safeId}', '${safeName}')" title="Xóa"><i class="fas fa-trash"></i></button>
+                        <button class="action-btn" onclick="viewMemberDetails('${safeId}')" title="Xem"><i class="fas fa-eye"></i></button>
+                        <button class="action-btn" onclick="createAccountForMember('${safeId}')" title="Tạo tài khoản"><i class="fas fa-user-plus"></i></button>
+                    </div>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+        
+        updatePagination(members.length);
+    }
+
+    // 4. Edit Member (Điền dữ liệu vào form)
+    async function editMember(id) {
+        const member = allMembers.find(m => m.id == id); // Tìm trong mảng local trước cho nhanh
+        if (!member) return;
+
+        openMemberModal();
+        const modalTitle = document.querySelector('.modal-title');
+        if(modalTitle) modalTitle.textContent = 'Chỉnh sửa thành viên';
+
+        // Điền dữ liệu
+        document.getElementById('fullname').value = member.fullname;
+        document.getElementById('dob').value = member.dob;
+        document.getElementById('department').value = member.department;
+        document.getElementById('gen').value = member.gen;
+        document.getElementById('position').value = member.position;
+        document.getElementById('role').value = member.role;
+        document.getElementById('phone').value = member.phone || '';
+        document.getElementById('email_personal').value = member.email_personal || '';
+        document.getElementById('email_work').value = member.email_work || '';
+        document.getElementById('status').value = member.status;
+        
+        // Cập nhật thông tin auto-gen
+        document.getElementById('generated-id').textContent = member.member_id;
+        // Gán ID để biết là đang update
+        document.getElementById('member-form').dataset.memberId = id;
+    }
+
+    // 5. Save Member (Create & Update Logic)
+    async function saveMember() {
+        const form = document.getElementById('member-form');
+        const editingId = form.dataset.memberId;
+        
+        // Lấy dữ liệu từ form
+        const memberData = {
+            fullname: document.getElementById('fullname').value.trim(),
+            dob: document.getElementById('dob').value,
+            department: document.getElementById('department').value,
+            gen: parseInt(document.getElementById('gen').value),
+            position: document.getElementById('position').value,
+            role: document.getElementById('role').value,
+            phone: document.getElementById('phone').value.trim(),
+            email_personal: document.getElementById('email_personal').value.trim(),
+            email_work: document.getElementById('email_work').value.trim(),
+            status: document.getElementById('status').value,
+            updated_at: new Date().toISOString()
+        };
+
+        // Nếu tạo mới thì thêm trường created_at và member_id
+        if (!editingId) {
+            memberData.created_at = new Date().toISOString();
+            // ID logic: Department.Gen.DDMMYY
+            const d = new Date(memberData.dob);
+            const day = String(d.getDate()).padStart(2,'0');
+            const month = String(d.getMonth()+1).padStart(2,'0');
+            const year = String(d.getFullYear()).slice(-2);
+            memberData.member_id = `${memberData.department}.${memberData.gen}.${day}${month}${year}`;
+        }
+
+        try {
+            let error;
+            if (editingId) {
+                // Update
+                const res = await supabase.from('members').update(memberData).eq('id', editingId);
+                error = res.error;
+            } else {
+                // Insert
+                const res = await supabase.from('members').insert([memberData]);
+                error = res.error;
+            }
+
+            if (error) throw error;
+
+            alert(editingId ? 'Cập nhật thành công!' : 'Thêm mới thành công!');
+            closeMemberModal();
+            loadMembersFromSupabase(); // Reload data
+
+        } catch (err) {
+            console.error(err);
+            alert('Lỗi: ' + err.message);
+        }
+    }
+
+    // 6. Delete Member
+    async function deleteMember(id, name) {
+        if (!confirm(`Bạn có chắc muốn xóa thành viên: ${name}?`)) return;
+
+        try {
+            // Xóa member (Cascade sẽ tự xóa account nếu thiết lập trong DB, nếu không phải xóa account trước)
+            const { error } = await supabase.from('members').delete().eq('id', id);
+            if (error) throw error;
+            
+            alert('Đã xóa thành công!');
+            loadMembersFromSupabase();
+        } catch (err) {
+            alert('Lỗi khi xóa: ' + err.message);
+        }
+    }
+
+    // 7. Tạo Account
+    async function createAccountForMember(memberId) {
+        const member = allMembers.find(m => m.id == memberId);
+        if (!member) return;
+
+        const username = generateUsername(member.fullname);
+        const accountData = {
+            member_id: memberId,
+            username: username,
+            email: member.email_work || `${username}@enactusftuhanoi.id.vn`,
+            password_hash: 'Enactus@123', // Demo pass
+            role: member.role,
+            status: 'active',
+            created_at: new Date().toISOString()
+        };
+
+        try {
+            const { error } = await supabase.from('accounts').insert([accountData]);
+            if (error) {
+                if (error.code === '23505') alert('Tài khoản cho thành viên này đã tồn tại!');
+                else throw error;
+            } else {
+                alert(`Tạo tài khoản thành công!\nUsername: ${username}\nPass: Enactus@123`);
+            }
+        } catch (err) {
+            alert('Lỗi tạo tài khoản: ' + err.message);
+        }
+    }
+
+    // 8. View Detail Logic
+    function viewMemberDetails(id) {
+        const member = allMembers.find(m => m.id == id);
+        if(!member) return;
+
+        // Xây dựng HTML cho modal chi tiết
+        const modalHTML = `
+            <div class="modal active" id="detail-modal">
+                <div class="modal-content" style="max-width: 500px;">
+                    <div class="modal-header">
+                        <h2 class="modal-title">Chi tiết thành viên</h2>
+                        <button class="modal-close" onclick="closeDetailModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <div style="width: 100px; height: 100px; border-radius: 50%; background: #eee; margin: 0 auto; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+                                ${member.avatar_url ? `<img src="${member.avatar_url}" style="width:100%;height:100%">` : `<span style="font-size:30px">${member.fullname.charAt(0)}</span>`}
+                            </div>
+                            <h3 style="margin-top:10px">${member.fullname}</h3>
+                            <div style="color: #666">${member.member_id}</div>
+                        </div>
+                        <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
+                            <div class="info-item"><div class="info-label">Ban</div><div class="info-value">${getDepartmentName(member.department)}</div></div>
+                            <div class="info-item"><div class="info-label">Gen</div><div class="info-value">${member.gen}</div></div>
+                            <div class="info-item"><div class="info-label">Vị trí</div><div class="info-value">${getPositionName(member.position)}</div></div>
+                            <div class="info-item"><div class="info-label">Role</div><div class="info-value">${member.role}</div></div>
+                            <div class="info-item" style="grid-column: span 2"><div class="info-label">Email Work</div><div class="info-value">${member.email_work || '-'}</div></div>
+                        </div>
+                        <div style="margin-top: 20px; text-align: right;">
+                             <button class="btn btn-secondary" onclick="closeDetailModal()">Đóng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Thêm vào body
+        const div = document.createElement('div');
+        div.innerHTML = modalHTML;
+        document.body.appendChild(div.firstElementChild);
+    }
+
+    function closeDetailModal() {
+        const modal = document.getElementById('detail-modal');
+        if(modal) modal.remove();
+    }
+
+    // --- CÁC HÀM TIỆN ÍCH (HELPER) ---
+
+    // Tự động sinh ID và Username
+    function updateGeneratedInfo() {
+        const fullname = document.getElementById('fullname').value.trim();
+        const dob = document.getElementById('dob').value;
+        const dept = document.getElementById('department').value;
+        const gen = document.getElementById('gen').value;
+
+        if (fullname && dob && dept && gen) {
+            // ID
+            const d = new Date(dob);
+            const day = String(d.getDate()).padStart(2,'0');
+            const month = String(d.getMonth()+1).padStart(2,'0');
+            const year = String(d.getFullYear()).slice(-2);
+            const id = `${dept}.${gen}.${day}${month}${year}`;
+            document.getElementById('generated-id').textContent = id;
+
+            // Username & Email
+            const username = generateUsername(fullname);
+            document.getElementById('generated-username').textContent = username;
+            document.getElementById('email_work').value = `${username}@enactusftuhanoi.id.vn`;
+        }
+    }
+
+    function generateUsername(name) {
+        if (!name) return '';
+        // Chuẩn hóa tiếng Việt, bỏ dấu
+        const str = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        const parts = str.split(' ').filter(Boolean);
+        if (parts.length === 0) return '';
+        
+        const lastName = parts[0];
+        const firstName = parts[parts.length - 1];
+        let mid = '';
+        if (parts.length > 2) mid = parts[1].charAt(0);
+        
+        return `${firstName}${lastName.charAt(0)}${mid}`;
+    }
+
+    function applyFilters() {
+        const term = document.querySelector('.filter-input').value.toLowerCase();
+        const deptVal = document.getElementById('filter-dept').value;
+        const genVal = document.getElementById('filter-gen').value;
+        const statusVal = document.getElementById('filter-status').value;
+
+        const filtered = allMembers.filter(m => {
+            const matchesTerm = !term || 
+                (m.fullname && m.fullname.toLowerCase().includes(term)) || 
+                (m.email_work && m.email_work.toLowerCase().includes(term)) ||
+                (m.member_id && m.member_id.toLowerCase().includes(term));
+            
+            const matchesDept = !deptVal || m.department === deptVal;
+            const matchesGen = !genVal || String(m.gen) === genVal;
+            const matchesStatus = !statusVal || m.status === statusVal;
+
+            return matchesTerm && matchesDept && matchesGen && matchesStatus;
+        });
+
+        currentPage = 1;
+        renderMembersTable(filtered);
+    }
+
+    function updateStats() {
+        const stats = { MD: 0, HR: 0, PD: 0, ER: 0 };
+        allMembers.forEach(m => {
+            if (stats[m.department] !== undefined) stats[m.department]++;
+        });
+        
+        document.getElementById('stat-md').textContent = stats.MD;
+        document.getElementById('stat-hr').textContent = stats.HR;
+        document.getElementById('stat-pd').textContent = stats.PD;
+        document.getElementById('stat-er').textContent = stats.ER;
+    }
+
+    function updatePagination(totalItems) {
+        const totalPages = Math.ceil(totalItems / membersPerPage);
+        const container = document.querySelector('.pagination-controls');
+        const info = document.querySelector('.pagination-info');
+        
+        if (info) info.textContent = `Hiển thị ${totalItems > 0 ? (currentPage-1)*membersPerPage+1 : 0} - ${Math.min(currentPage*membersPerPage, totalItems)} của ${totalItems} thành viên`;
+        
+        if (container) {
+            let html = '';
+            // Prev
+            html += `<button class="page-btn" onclick="changePage(${currentPage-1})" ${currentPage===1?'disabled':''}><i class="fas fa-chevron-left"></i></button>`;
+            
+            // Simple logic: show current page
+            html += `<button class="page-btn active">${currentPage}</button>`;
+            
+            // Next
+            html += `<button class="page-btn" onclick="changePage(${currentPage+1})" ${currentPage>=totalPages?'disabled':''}><i class="fas fa-chevron-right"></i></button>`;
+            
+            container.innerHTML = html;
+        }
+    }
+
+    function changePage(newPage) {
+        const totalPages = Math.ceil(allMembers.length / membersPerPage); // Lưu ý: logic này đúng cho filter hiện tại thì tốt hơn
+        if (newPage < 1) return;
+        // Cần cải thiện logic lấy filtered list length, ở đây tạm dùng allMembers
+        currentPage = newPage;
+        applyFilters(); // Re-render
+    }
+
+    function getDepartmentName(code) {
+        const map = { 'MD': 'Truyền thông', 'HR': 'Nhân sự', 'PD': 'Dự án', 'ER': 'Đối ngoại' };
+        return map[code] || code;
+    }
+
+    function getPositionName(code) {
+        const map = { 'member': 'Thành viên', 'head': 'Trưởng ban', 'deputy': 'Phó ban', 'chairman': 'Chủ tịch', 'vice_chairman': 'Phó CT' };
+        return map[code] || code;
+    }
+
+    // Export Excel
+    function exportData() {
+        if (typeof XLSX === 'undefined') { alert('Chưa tải thư viện Excel'); return; }
+        const ws = XLSX.utils.json_to_sheet(allMembers);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Members");
+        XLSX.writeFile(wb, "Danh_sach_thanh_vien.xlsx");
+    }
+</script>
+</body>
+</html>

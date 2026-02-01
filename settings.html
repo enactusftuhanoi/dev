@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cài đặt hệ thống | Enactus FTU Hanoi</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --primary-dark: #3a0ca3;
+            --secondary: #f72585;
+            --accent: #4cc9f0;
+            
+            --white: #ffffff;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --info: #3b82f6;
+            
+            --border-radius: 16px;
+            --border-radius-sm: 8px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: var(--gray-50);
+            color: var(--gray-800);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .page-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gray-900), var(--gray-700));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Settings Layout */
+        .settings-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 32px;
+        }
+        
+        /* Settings Sidebar */
+        .settings-sidebar {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            height: fit-content;
+        }
+        
+        .settings-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .settings-nav-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 16px;
+            color: var(--gray-700);
+            text-decoration: none;
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .settings-nav-item:hover {
+            background: var(--gray-100);
+            color: var(--primary);
+        }
+        
+        .settings-nav-item.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--white);
+        }
+        
+        .settings-nav-item i {
+            width: 20px;
+            margin-right: 12px;
+            font-size: 18px;
+        }
+        
+        /* Settings Content */
+        .settings-content {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            box-shadow: var(--shadow);
+        }
+        
+        .settings-section {
+            display: none;
+        }
+        
+        .settings-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: var(--gray-900);
+        }
+        
+        .section-description {
+            color: var(--gray-600);
+            margin-bottom: 32px;
+        }
+        
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--border-radius-sm);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--gray-200);
+        }
+        
+        /* Button Styles */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-secondary {
+            background: var(--white);
+            color: var(--gray-700);
+            border: 1px solid var(--gray-300);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--gray-50);
+        }
+        
+        .btn-danger {
+            background: var(--error);
+            color: var(--white);
+        }
+        
+        /* Accounts Table */
+        .accounts-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+        
+        .accounts-table th {
+            background: var(--gray-50);
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--gray-700);
+            font-size: 14px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .accounts-table td {
+            padding: 16px;
+            border-bottom: 1px solid var(--gray-200);
+            font-size: 14px;
+        }
+        
+        .accounts-table tr:hover {
+            background: var(--gray-50);
+        }
+        
+        .role-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .role-super_admin {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            color: var(--white);
+        }
+        
+        .role-admin {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--white);
+        }
+        
+        .role-member {
+            background: var(--gray-200);
+            color: var(--gray-700);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-active {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+        
+        .status-inactive {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: none;
+            background: var(--gray-100);
+            color: var(--gray-600);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .action-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+        
+        /* System Info Cards */
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .info-card {
+            background: var(--gray-50);
+            border-radius: var(--border-radius-sm);
+            padding: 20px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .info-card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-600);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .info-card-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+        
+        /* Switch Toggle */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--gray-300);
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--success);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .settings-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .settings-sidebar {
+                display: flex;
+                overflow-x: auto;
+                padding: 16px;
+            }
+            
+            .settings-nav {
+                flex-direction: row;
+                gap: 8px;
+            }
+            
+            .settings-nav-item {
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="page-title">Cài đặt hệ thống</h1>
+        </header>
+        
+        <!-- Settings Layout -->
+        <div class="settings-layout">
+            <!-- Settings Sidebar -->
+            <div class="settings-sidebar">
+                <nav class="settings-nav">
+                    <div class="settings-nav-item active" data-section="accounts">
+                        <i class="fas fa-user-cog"></i>
+                        <span>Tài khoản</span>
+                    </div>
+                    <div class="settings-nav-item" data-section="system">
+                        <i class="fas fa-cogs"></i>
+                        <span>Hệ thống</span>
+                    </div>
+                    <div class="settings-nav-item" data-section="security">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Bảo mật</span>
+                    </div>
+                    <div class="settings-nav-item" data-section="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span>Thông báo</span>
+                    </div>
+                    <div class="settings-nav-item" data-section="backup">
+                        <i class="fas fa-database"></i>
+                        <span>Sao lưu</span>
+                    </div>
+                </nav>
+            </div>
+            
+            <!-- Settings Content -->
+            <div class="settings-content">
+                <!-- Accounts Section -->
+                <div class="settings-section active" id="accounts-section">
+                    <h2 class="section-title">Quản lý Tài khoản</h2>
+                    <p class="section-description">Quản lý tài khoản người dùng và phân quyền hệ thống</p>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Tìm kiếm tài khoản</label>
+                            <div style="position: relative;">
+                                <i class="fas fa-search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--gray-400);"></i>
+                                <input type="text" class="form-control" placeholder="Tìm theo tên, email..." style="padding-left: 40px;">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Lọc theo vai trò</label>
+                            <select class="form-control">
+                                <option value="">Tất cả vai trò</option>
+                                <option value="super_admin">Super Admin</option>
+                                <option value="admin">Admin</option>
+                                <option value="member">Thành viên</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div style="overflow-x: auto;">
+                        <table class="accounts-table">
+                            <thead>
+                                <tr>
+                                    <th>Tài khoản</th>
+                                    <th>Vai trò</th>
+                                    <th>Trạng thái</th>
+                                    <th>Ngày tạo</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="accounts-table-body">
+                                <!-- Data will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="btn btn-primary" onclick="addNewAccount()">
+                            <i class="fas fa-user-plus"></i> Thêm tài khoản
+                        </button>
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-download"></i> Export danh sách
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- System Section -->
+                <div class="settings-section" id="system-section">
+                    <h2 class="section-title">Cài đặt hệ thống</h2>
+                    <p class="section-description">Cấu hình các thông số hệ thống và cài đặt chung</p>
+                    
+                    <div class="info-cards">
+                        <div class="info-card">
+                            <div class="info-card-title">Tổng số thành viên</div>
+                            <div class="info-card-value">156</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-title">Tổng số tài khoản</div>
+                            <div class="info-card-value">45</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-title">Phiên bản hệ thống</div>
+                            <div class="info-card-value">v2.1.0</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-title">Cập nhật cuối</div>
+                            <div class="info-card-value">12/12/2024</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Tên hệ thống</label>
+                        <input type="text" class="form-control" value="Enactus FTU Hanoi Recruitment System">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Timezone</label>
+                        <select class="form-control">
+                            <option value="Asia/Ho_Chi_Minh" selected>Asia/Ho_Chi_Minh (GMT+7)</option>
+                            <option value="UTC">UTC</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Ngôn ngữ</label>
+                        <select class="form-control">
+                            <option value="vi" selected>Tiếng Việt</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Định dạng ngày</label>
+                        <select class="form-control">
+                            <option value="dd/mm/yyyy" selected>dd/mm/yyyy</option>
+                            <option value="mm/dd/yyyy">mm/dd/yyyy</option>
+                            <option value="yyyy-mm-dd">yyyy-mm-dd</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="btn btn-secondary">Hủy</button>
+                        <button class="btn btn-primary">Lưu thay đổi</button>
+                    </div>
+                </div>
+                
+                <!-- Security Section -->
+                <div class="settings-section" id="security-section">
+                    <h2 class="section-title">Bảo mật</h2>
+                    <p class="section-description">Cấu hình các thiết lập bảo mật hệ thống</p>
+                    
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div class="form-label">Yêu cầu xác thực 2 lớp</div>
+                                <div style="font-size: 12px; color: var(--gray-500);">Thêm lớp bảo mật cho tài khoản</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div class="form-label">Tự động đăng xuất</div>
+                                <div style="font-size: 12px; color: var(--gray-500);">Đăng xuất tự động sau 30 phút không hoạt động</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div class="form-label">Giới hạn đăng nhập sai</div>
+                                <div style="font-size: 12px; color: var(--gray-500);">Khóa tài khoản sau 5 lần đăng nhập sai</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Thời gian hết hạn session (phút)</label>
+                        <input type="number" class="form-control" value="30" min="5" max="1440">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Đổi mật khẩu định kỳ (ngày)</label>
+                        <input type="number" class="form-control" value="90" min="30" max="365">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="btn btn-secondary">Hủy</button>
+                        <button class="btn btn-primary">Lưu thay đổi</button>
+                    </div>
+                </div>
+                
+                <!-- Notifications Section -->
+                <div class="settings-section" id="notifications-section">
+                    <h2 class="section-title">Thông báo</h2>
+                    <p class="section-description">Cấu hình các thiết lập thông báo hệ thống</p>
+                    
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div class="form-label">Thông báo email</div>
+                                <div style="font-size: 12px; color: var(--gray-500);">Gửi thông báo qua email</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div class="form-label">Thông báo thành viên mới</div>
+                                <div style="font-size: 12px; color: var(--gray-500);">Thông báo khi có thành viên mới</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div class="form-label">Thông báo cập nhật</div>
+                                <div style="font-size: 12px; color: var(--gray-500);">Thông báo khi có cập nhật hệ thống</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Email nhận thông báo</label>
+                        <textarea class="form-control" rows="3" placeholder="Nhập email, cách nhau bằng dấu phẩy"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="btn btn-secondary">Hủy</button>
+                        <button class="btn btn-primary">Lưu thay đổi</button>
+                    </div>
+                </div>
+                
+                <!-- Backup Section -->
+                <div class="settings-section" id="backup-section">
+                    <h2 class="section-title">Sao lưu & Khôi phục</h2>
+                    <p class="section-description">Quản lý sao lưu dữ liệu và khôi phục hệ thống</p>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Tần suất sao lưu tự động</label>
+                        <select class="form-control">
+                            <option value="daily">Hàng ngày</option>
+                            <option value="weekly" selected>Hàng tuần</option>
+                            <option value="monthly">Hàng tháng</option>
+                            <option value="manual">Thủ công</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Giữ lại bản sao lưu (ngày)</label>
+                        <input type="number" class="form-control" value="30" min="7" max="365">
+                    </div>
+                    
+                    <div style="background: var(--gray-50); padding: 20px; border-radius: var(--border-radius-sm); margin: 20px 0;">
+                        <h4 style="margin-bottom: 16px; color: var(--gray-700);">Sao lưu thủ công</h4>
+                        <div style="display: flex; gap: 12px;">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-download"></i> Tạo bản sao lưu
+                            </button>
+                            <button class="btn btn-secondary">
+                                <i class="fas fa-upload"></i> Khôi phục từ file
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Xóa tất cả dữ liệu
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Account Modal -->
+    <div class="modal" id="account-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 20px;">
+        <div class="modal-content" style="background: var(--white); border-radius: var(--border-radius); width: 100%; max-width: 500px; padding: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h2 style="font-size: 20px; font-weight: 600;">Thêm tài khoản mới</h2>
+                <button onclick="closeAccountModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--gray-500);">&times;</button>
+            </div>
+            
+            <form id="account-form">
+                <div class="form-group">
+                    <label class="form-label">Chọn thành viên</label>
+                    <select class="form-control" id="member-select">
+                        <option value="">Chọn thành viên</option>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Vai trò</label>
+                    <select class="form-control" id="account-role">
+                        <option value="member">Thành viên</option>
+                        <option value="admin">Admin</option>
+                        <option value="super_admin">Super Admin</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Trạng thái</label>
+                    <select class="form-control" id="account-status">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+                
+                <div style="background: var(--gray-50); padding: 16px; border-radius: var(--border-radius-sm); margin: 20px 0;">
+                    <h4 style="margin-bottom: 12px; color: var(--gray-700);">Thông tin tự động</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div>
+                            <label style="font-size: 12px; color: var(--gray-500);">Username</label>
+                            <div id="generated-username-account" style="font-weight: 600;">-</div>
+                        </div>
+                        <div>
+                            <label style="font-size: 12px; color: var(--gray-500);">Email</label>
+                            <div id="generated-email-account" style="font-weight: 600;">-</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 12px;">
+                        <label style="font-size: 12px; color: var(--gray-500);">Mật khẩu mặc định</label>
+                        <div style="font-weight: 600; color: var(--success);">Enactus@123</div>
+                    </div>
+                </div>
+                
+                <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--gray-200);">
+                    <button type="button" class="btn btn-secondary" onclick="closeAccountModal()">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Tạo tài khoản</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Sample accounts data
+        const sampleAccounts = [
+            {
+                id: '1',
+                username: 'admin',
+                email: 'admin@enactusftuhanoi.id.vn',
+                role: 'super_admin',
+                status: 'active',
+                created_at: '2024-01-01',
+                fullname: 'System Administrator'
+            },
+            {
+                id: '2',
+                username: 'tuhm',
+                email: 'tuhm@enactusftuhanoi.id.vn',
+                role: 'admin',
+                status: 'active',
+                created_at: '2024-01-15',
+                fullname: 'Hoàng Minh Tú'
+            },
+            {
+                id: '3',
+                username: 'maing',
+                email: 'maing@enactusftuhanoi.id.vn',
+                role: 'admin',
+                status: 'active',
+                created_at: '2024-02-01',
+                fullname: 'Nguyễn Thị Mai'
+            },
+            {
+                id: '4',
+                username: 'ductv',
+                email: 'ductv@enactusftuhanoi.id.vn',
+                role: 'member',
+                status: 'active',
+                created_at: '2024-02-15',
+                fullname: 'Trần Văn Đức'
+            },
+            {
+                id: '5',
+                username: 'huonglt',
+                email: 'huonglt@enactusftuhanoi.id.vn',
+                role: 'member',
+                status: 'inactive',
+                created_at: '2024-03-01',
+                fullname: 'Lê Thị Hương'
+            }
+        ];
+        
+        // Sample members data (for account creation)
+        const sampleMembers = [
+            { id: '1', fullname: 'Hoàng Minh Tú', username: 'tuhm' },
+            { id: '2', fullname: 'Nguyễn Thị Mai', username: 'maing' },
+            { id: '3', fullname: 'Trần Văn Đức', username: 'ductv' },
+            { id: '4', fullname: 'Lê Thị Hương', username: 'huonglt' },
+            { id: '5', fullname: 'Phạm Văn Nam', username: 'nampv' }
+        ];
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderAccountsTable();
+            setupSettingsNavigation();
+            setupAccountForm();
+        });
+        
+        // Setup settings navigation
+        function setupSettingsNavigation() {
+            const navItems = document.querySelectorAll('.settings-nav-item');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove active class from all items
+                    navItems.forEach(i => i.classList.remove('active'));
+                    
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                    
+                    // Get section id
+                    const sectionId = this.dataset.section;
+                    
+                    // Hide all sections
+                    document.querySelectorAll('.settings-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // Show selected section
+                    document.getElementById(`${sectionId}-section`).classList.add('active');
+                });
+            });
+        }
+        
+        // Render accounts table
+        function renderAccountsTable() {
+            const tbody = document.getElementById('accounts-table-body');
+            tbody.innerHTML = '';
+            
+            sampleAccounts.forEach(account => {
+                const tr = document.createElement('tr');
+                
+                tr.innerHTML = `
+                    <td>
+                        <div style="font-weight: 600;">${account.fullname}</div>
+                        <div style="font-size: 12px; color: var(--gray-500);">${account.username} • ${account.email}</div>
+                    </td>
+                    <td>
+                        <span class="role-badge role-${account.role}">
+                            ${getRoleDisplayName(account.role)}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="status-badge status-${account.status}">
+                            ${account.status === 'active' ? 'Active' : 'Inactive'}
+                        </span>
+                    </td>
+                    <td>${formatDate(account.created_at)}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn" onclick="editAccount('${account.id}')" title="Chỉnh sửa">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn" onclick="deleteAccount('${account.id}')" title="Xóa">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <button class="action-btn" onclick="resetPassword('${account.id}')" title="Reset mật khẩu">
+                                <i class="fas fa-key"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                
+                tbody.appendChild(tr);
+            });
+        }
+        
+        // Get role display name
+        function getRoleDisplayName(role) {
+            const roles = {
+                'super_admin': 'Super Admin',
+                'admin': 'Admin',
+                'member': 'Thành viên'
+            };
+            return roles[role] || role;
+        }
+        
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('vi-VN');
+        }
+        
+        // Setup account form
+        function setupAccountForm() {
+            const form = document.getElementById('account-form');
+            const memberSelect = document.getElementById('member-select');
+            
+            // Populate member select
+            sampleMembers.forEach(member => {
+                const option = document.createElement('option');
+                option.value = member.id;
+                option.textContent = member.fullname;
+                memberSelect.appendChild(option);
+            });
+            
+            // Auto-generate username and email
+            memberSelect.addEventListener('change', function() {
+                const memberId = this.value;
+                const member = sampleMembers.find(m => m.id === memberId);
+                
+                if (member) {
+                    document.getElementById('generated-username-account').textContent = member.username;
+                    document.getElementById('generated-email-account').textContent = `${member.username}@enactusftuhanoi.id.vn`;
+                } else {
+                    document.getElementById('generated-username-account').textContent = '-';
+                    document.getElementById('generated-email-account').textContent = '-';
+                }
+            });
+            
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveAccount();
+            });
+        }
+        
+        // Open account modal
+        function addNewAccount() {
+            document.getElementById('account-modal').style.display = 'flex';
+        }
+        
+        // Close account modal
+        function closeAccountModal() {
+            document.getElementById('account-modal').style.display = 'none';
+            document.getElementById('account-form').reset();
+            document.getElementById('generated-username-account').textContent = '-';
+            document.getElementById('generated-email-account').textContent = '-';
+        }
+        
+        // Save account
+        function saveAccount() {
+            const form = document.getElementById('account-form');
+            const memberId = document.getElementById('member-select').value;
+            const member = sampleMembers.find(m => m.id === memberId);
+            
+            if (!member) {
+                alert('Vui lòng chọn thành viên');
+                return;
+            }
+            
+            const accountData = {
+                memberId: memberId,
+                fullname: member.fullname,
+                username: document.getElementById('generated-username-account').textContent,
+                email: document.getElementById('generated-email-account').textContent,
+                role: document.getElementById('account-role').value,
+                status: document.getElementById('account-status').value,
+                password: 'Enactus@123'
+            };
+            
+            console.log('Saving account:', accountData);
+            alert('Tài khoản đã được tạo thành công!');
+            closeAccountModal();
+            
+            // In a real app, you would save to Supabase and refresh the table
+        }
+        
+        // Edit account
+        function editAccount(accountId) {
+            const account = sampleAccounts.find(a => a.id === accountId);
+            if (!account) return;
+            
+            alert(`Chỉnh sửa tài khoản: ${account.fullname}\nUsername: ${account.username}\nRole: ${getRoleDisplayName(account.role)}`);
+        }
+        
+        // Delete account
+        function deleteAccount(accountId) {
+            if (confirm('Bạn có chắc muốn xóa tài khoản này?')) {
+                console.log('Deleting account:', accountId);
+                alert('Tài khoản đã được xóa!');
+                // In a real app, you would delete from Supabase and refresh
+            }
+        }
+        
+        // Reset password
+        function resetPassword(accountId) {
+            if (confirm('Reset mật khẩu về mặc định (Enactus@123)?')) {
+                console.log('Resetting password for account:', accountId);
+                alert('Mật khẩu đã được reset!');
+            }
+        }
+    </script>
+</body>
+</html>
