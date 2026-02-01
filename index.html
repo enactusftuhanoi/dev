@@ -1,66 +1,1322 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
-    <title>Dev | Enactus FTU Hanoi</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dev Dashboard | Enactus FTU Hanoi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Clash+Display:wght@600;700;800&display=swap" rel="stylesheet" />
     <style>
+        :root {
+            /* Core Colors - Enhanced version */
+            --primary-gradient: linear-gradient(135deg, #ffd54f 0%, #ffca28 100%);
+            --primary: #ffd54f;
+            --primary-dark: #ffb300;
+            --primary-light: #ffecb3;
+            
+            /* Modern Gray Scale */
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #eeeeee;
+            --gray-300: #e0e0e0;
+            --gray-400: #bdbdbd;
+            --gray-500: #9e9e9e;
+            --gray-600: #757575;
+            --gray-700: #616161;
+            --gray-800: #424242;
+            --gray-900: #212121;
+            
+            /* Status Colors */
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --success-dark: #059669;
+            --error: #ef4444;
+            --error-light: #fee2e2;
+            --error-dark: #dc2626;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --warning-dark: #d97706;
+            --info: #3b82f6;
+            --info-light: #dbeafe;
+            --info-dark: #2563eb;
+            
+            /* Accent Colors */
+            --accent-purple: #8b5cf6;
+            --accent-purple-light: #ede9fe;
+            --accent-pink: #ec4899;
+            --accent-pink-light: #fce7f3;
+            --accent-teal: #14b8a6;
+            --accent-teal-light: #ccfbf1;
+            
+            /* Effects */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 6px 12px -2px rgba(0, 0, 0, 0.1), 0 4px 6px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            
+            /* Border Radius */
+            --radius-sm: 8px;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-full: 9999px;
+            
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
+            background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
+            color: var(--gray-800);
+            min-height: 100vh;
+            overflow-x: hidden;
         }
+
+        /* Layout */
         .container {
-            background: #f5f5f5;
-            padding: 30px;
-            border-radius: 10px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
         }
-        .welcome {
-            color: #333;
-            margin-bottom: 20px;
+
+        /* Enhanced Sidebar */
+        .sidebar {
+            background: linear-gradient(180deg, var(--gray-900) 0%, var(--gray-800) 100%);
+            color: white;
+            padding: 2rem 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow-xl);
+            z-index: 100;
         }
+
+        .sidebar-header {
+            padding: 0 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-gradient);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: var(--gray-900);
+        }
+
+        .logo-text {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-subtext {
+            font-size: 0.75rem;
+            color: var(--gray-400);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.875rem 1.5rem;
+            color: var(--gray-300);
+            text-decoration: none;
+            transition: var(--transition);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: rgba(255, 213, 79, 0.1);
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: var(--primary-gradient);
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-badge {
+            background: var(--primary);
+            color: var(--gray-900);
+            font-size: 0.75rem;
+            padding: 0.125rem 0.5rem;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        .user-section {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: auto;
+        }
+
+        .user-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--gray-900);
+            font-size: 1rem;
+        }
+
         .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .user-role {
+            font-size: 0.75rem;
+            color: var(--gray-400);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        /* Enhanced Header */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gray-200);
+        }
+
+        .page-title {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gray-800) 0%, var(--gray-600) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: var(--gray-900);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
             background: white;
-            padding: 15px;
-            border-left: 4px solid #4285f4;
+            color: var(--gray-700);
+            border: 2px solid var(--gray-200);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-danger {
+            background: var(--error-light);
+            color: var(--error);
+        }
+
+        .btn-danger:hover {
+            background: var(--error);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .btn-success:hover {
+            background: var(--success);
+            color: white;
+        }
+
+        /* Stats Grid - Enhanced */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid var(--gray-200);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-light);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .stat-icon.primary {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+        }
+
+        .stat-icon.success {
+            background: var(--success-light);
+            color: var(--success-dark);
+        }
+
+        .stat-icon.info {
+            background: var(--info-light);
+            color: var(--info-dark);
+        }
+
+        .stat-icon.warning {
+            background: var(--warning-light);
+            color: var(--warning-dark);
+        }
+
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-full);
+        }
+
+        .stat-trend.positive {
+            background: var(--success-light);
+            color: var(--success-dark);
+        }
+
+        .stat-trend.negative {
+            background: var(--error-light);
+            color: var(--error-dark);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            font-family: 'Clash Display', sans-serif;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .stat-description {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            margin-top: 0.5rem;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .action-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .action-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            background: var(--primary-gradient);
+            color: var(--gray-900);
+        }
+
+        .action-info {
+            flex: 1;
+        }
+
+        .action-title {
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 0.25rem;
+        }
+
+        .action-description {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+
+        /* Recent Activity */
+        .activity-section {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: var(--radius);
+            background: var(--gray-50);
+            transition: var(--transition);
+        }
+
+        .activity-item:hover {
+            background: var(--primary-light);
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .activity-icon.add {
+            background: var(--success-light);
+            color: var(--success-dark);
+        }
+
+        .activity-icon.update {
+            background: var(--info-light);
+            color: var(--info-dark);
+        }
+
+        .activity-icon.delete {
+            background: var(--error-light);
+            color: var(--error-dark);
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-text {
+            font-weight: 500;
+            color: var(--gray-800);
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-time {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+
+        /* System Status */
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+
+        .status-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .status-indicator.online {
+            background: var(--success);
+            box-shadow: 0 0 0 3px var(--success-light);
+        }
+
+        .status-indicator.warning {
+            background: var(--warning);
+            box-shadow: 0 0 0 3px var(--warning-light);
+        }
+
+        .status-indicator.offline {
+            background: var(--error);
+            box-shadow: 0 0 0 3px var(--error-light);
+        }
+
+        .status-info {
+            flex: 1;
+        }
+
+        .status-name {
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 0.25rem;
+        }
+
+        .status-description {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+
+        /* Dev Tools */
+        .dev-tools {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+
+        .tool-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .tool-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius);
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: var(--gray-900);
+        }
+
+        .tool-title {
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: var(--gray-800);
+        }
+
+        .tool-description {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .tool-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .header-actions {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--gray-100);
+            border-radius: var(--radius-full);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gray-400);
+            border-radius: var(--radius-full);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gray-500);
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+                color: var(--gray-200);
+            }
+            
+            .stat-card,
+            .action-card,
+            .activity-section,
+            .status-card,
+            .tool-card {
+                background: var(--gray-800);
+                color: var(--gray-200);
+                border-color: var(--gray-700);
+            }
+            
+            .btn-secondary {
+                background: var(--gray-800);
+                color: var(--gray-200);
+                border-color: var(--gray-700);
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="welcome">🔐 Admin Portal</h1>
-        <p>Chào mừng đến trang quản trị</p>
-        
-        <div class="user-info">
-            <p><strong>Email:</strong> <span id="user-email">Loading...</span></p>
-            <p><strong>IP:</strong> <span id="user-ip">Loading...</span></p>
-        </div>
-        
-        <div style="margin-top: 30px;">
-            <h3>Quick Links:</h3>
-            <ul>
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="/settings">Settings</a></li>
-                <li><a href="/users">User Management</a></li>
-            </ul>
-        </div>
+        <!-- Enhanced Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div>
+                        <div class="logo-text">Enactus Dev</div>
+                        <div class="logo-subtext">Development Hub</div>
+                    </div>
+                </a>
+            </div>
+
+            <nav>
+                <div class="nav-section">
+                    <div class="section-label">Development</div>
+                    <div class="nav-item active">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-code-branch"></i>
+                        <span>API Management</span>
+                        <span class="nav-badge">New</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-database"></i>
+                        <span>Database</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-bug"></i>
+                        <span>Debug Console</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="section-label">Monitoring</div>
+                    <div class="nav-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analytics</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-server"></i>
+                        <span>Server Status</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Security Logs</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="section-label">Tools</div>
+                    <div class="nav-item">
+                        <i class="fas fa-wrench"></i>
+                        <span>Utilities</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-terminal"></i>
+                        <span>Terminal</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-file-code"></i>
+                        <span>Templates</span>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="user-section">
+                <div class="user-card">
+                    <div class="user-avatar">DV</div>
+                    <div class="user-info">
+                        <div class="user-name">Dev Team</div>
+                        <div class="user-role">Lead Developer • System Admin</div>
+                    </div>
+                    <i class="fas fa-chevron-down" style="color: var(--gray-400);"></i>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Enhanced Header -->
+            <header class="page-header">
+                <h1 class="page-title">Developer Dashboard</h1>
+                <div class="header-actions">
+                    <button class="btn btn-secondary">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh
+                    </button>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-rocket"></i>
+                        Deploy
+                    </button>
+                    <button class="btn btn-danger">
+                        <i class="fas fa-fire"></i>
+                        Clear Cache
+                    </button>
+                </div>
+            </header>
+
+            <!-- Enhanced Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card fade-in" style="animation-delay: 0.1s;">
+                    <div class="stat-header">
+                        <div class="stat-icon primary">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="stat-trend positive">
+                            <i class="fas fa-arrow-up"></i>
+                            12.5%
+                        </div>
+                    </div>
+                    <div class="stat-value">1,248</div>
+                    <div class="stat-label">Total Applications</div>
+                    <div class="stat-description">Across all recruitment rounds</div>
+                </div>
+
+                <div class="stat-card fade-in" style="animation-delay: 0.2s;">
+                    <div class="stat-header">
+                        <div class="stat-icon success">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <div class="stat-trend positive">
+                            <i class="fas fa-arrow-up"></i>
+                            5.2%
+                        </div>
+                    </div>
+                    <div class="stat-value">99.8%</div>
+                    <div class="stat-label">System Uptime</div>
+                    <div class="stat-description">Last 30 days performance</div>
+                </div>
+
+                <div class="stat-card fade-in" style="animation-delay: 0.3s;">
+                    <div class="stat-header">
+                        <div class="stat-icon info">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="stat-trend positive">
+                            <i class="fas fa-arrow-up"></i>
+                            8.3%
+                        </div>
+                    </div>
+                    <div class="stat-value">2.4s</div>
+                    <div class="stat-label">Avg Response Time</div>
+                    <div class="stat-description">API endpoint performance</div>
+                </div>
+
+                <div class="stat-card fade-in" style="animation-delay: 0.4s;">
+                    <div class="stat-header">
+                        <div class="stat-icon warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-trend negative">
+                            <i class="fas fa-arrow-down"></i>
+                            3.1%
+                        </div>
+                    </div>
+                    <div class="stat-value">42</div>
+                    <div class="stat-label">Active Issues</div>
+                    <div class="stat-description">Requiring attention</div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <div class="action-card fade-in" style="animation-delay: 0.5s;">
+                    <div class="action-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <div class="action-info">
+                        <div class="action-title">Run Tests</div>
+                        <div class="action-description">Execute automated test suites</div>
+                    </div>
+                </div>
+
+                <div class="action-card fade-in" style="animation-delay: 0.6s;">
+                    <div class="action-icon">
+                        <i class="fas fa-file-export"></i>
+                    </div>
+                    <div class="action-info">
+                        <div class="action-title">Export Data</div>
+                        <div class="action-description">Generate system reports</div>
+                    </div>
+                </div>
+
+                <div class="action-card fade-in" style="animation-delay: 0.7s;">
+                    <div class="action-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="action-info">
+                        <div class="action-title">Security Scan</div>
+                        <div class="action-description">Check system vulnerabilities</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <section class="activity-section fade-in" style="animation-delay: 0.8s;">
+                <h2 class="section-title">
+                    <i class="fas fa-history"></i>
+                    Recent Activity
+                </h2>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon add">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-text">New user registration system deployed</div>
+                            <div class="activity-time">2 minutes ago • System Update</div>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-icon update">
+                            <i class="fas fa-pencil-alt"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-text">Database schema optimized for performance</div>
+                            <div class="activity-time">1 hour ago • Database</div>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-icon delete">
+                            <i class="fas fa-trash"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-text">Cleared old cache files (2.4 GB)</div>
+                            <div class="activity-time">3 hours ago • Maintenance</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- System Status -->
+            <section class="activity-section fade-in" style="animation-delay: 0.9s;">
+                <h2 class="section-title">
+                    <i class="fas fa-heartbeat"></i>
+                    System Status
+                </h2>
+                <div class="status-grid">
+                    <div class="status-card">
+                        <div class="status-indicator online"></div>
+                        <div class="status-info">
+                            <div class="status-name">Web Server</div>
+                            <div class="status-description">Nginx 1.18 • Running</div>
+                        </div>
+                    </div>
+
+                    <div class="status-card">
+                        <div class="status-indicator online"></div>
+                        <div class="status-info">
+                            <div class="status-name">Database</div>
+                            <div class="status-description">Firestore • Connected</div>
+                        </div>
+                    </div>
+
+                    <div class="status-card">
+                        <div class="status-indicator warning pulse"></div>
+                        <div class="status-info">
+                            <div class="status-name">API Gateway</div>
+                            <div class="status-description">High latency detected</div>
+                        </div>
+                    </div>
+
+                    <div class="status-card">
+                        <div class="status-indicator online"></div>
+                        <div class="status-info">
+                            <div class="status-name">Cache Server</div>
+                            <div class="status-description">Redis 6.2 • Optimal</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Development Tools -->
+            <div class="dev-tools">
+                <div class="tool-card fade-in" style="animation-delay: 1s;">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <div class="tool-title">System Configuration</div>
+                    </div>
+                    <p class="tool-description">
+                        Manage system settings, environment variables, and feature flags.
+                        Control the behavior of the recruitment platform.
+                    </p>
+                    <div class="tool-actions">
+                        <button class="btn btn-secondary btn-sm">
+                            <i class="fas fa-sliders-h"></i>
+                            Settings
+                        </button>
+                        <button class="btn btn-secondary btn-sm">
+                            <i class="fas fa-key"></i>
+                            Secrets
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tool-card fade-in" style="animation-delay: 1.1s;">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="tool-title">Analytics & Monitoring</div>
+                    </div>
+                    <p class="tool-description">
+                        Real-time system monitoring, performance metrics, and user analytics.
+                        Track application usage and system health.
+                    </p>
+                    <div class="tool-actions">
+                        <button class="btn btn-secondary btn-sm">
+                            <i class="fas fa-eye"></i>
+                            Monitor
+                        </button>
+                        <button class="btn btn-secondary btn-sm">
+                            <i class="fas fa-chart-pie"></i>
+                            Analytics
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tool-card fade-in" style="animation-delay: 1.2s;">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="tool-title">Developer Tools</div>
+                    </div>
+                    <p class="tool-description">
+                        Advanced development tools including API testing, database management,
+                        and system debugging utilities.
+                    </p>
+                    <div class="tool-actions">
+                        <button class="btn btn-secondary btn-sm">
+                            <i class="fas fa-terminal"></i>
+                            Console
+                        </button>
+                        <button class="btn btn-secondary btn-sm">
+                            <i class="fas fa-vial"></i>
+                            Test Suite
+                        </button>
+                        <button class="btn btn-secondary btn-sm">
+                            <i class="fas fa-database"></i>
+                            DB Manager
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script>
-        // Lấy thông tin user từ Cloudflare Access headers
-        fetch('/cdn-cgi/access/get-user')
-            .then(response => response.json())
-            .then(data => {
-                if (data.email) {
-                    document.getElementById('user-email').textContent = data.email;
-                }
+        // Add interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate elements on load
+            const animateElements = document.querySelectorAll('.fade-in');
+            animateElements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 100);
             });
-        
-        // Lấy IP
-        fetch('https://api.ipify.org?format=json')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('user-ip').textContent = data.ip;
+
+            // Add hover effects
+            const cards = document.querySelectorAll('.stat-card, .action-card, .tool-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.zIndex = '10';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.zIndex = '1';
+                });
             });
+
+            // Button interactions
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    // Add click effect
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+
+                    // Show loading state for primary buttons
+                    if (this.classList.contains('btn-primary')) {
+                        const originalContent = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                        this.disabled = true;
+
+                        setTimeout(() => {
+                            this.innerHTML = originalContent;
+                            this.disabled = false;
+                            showNotification('Action completed successfully!', 'success');
+                        }, 2000);
+                    }
+                });
+            });
+
+            // Nav item interactions
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    navItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Update time for activity items
+            function updateActivityTimes() {
+                const times = document.querySelectorAll('.activity-time');
+                times.forEach(time => {
+                    // Simulate updating time
+                    if (time.textContent.includes('minutes')) {
+                        const minutes = parseInt(time.textContent);
+                        if (minutes < 10) {
+                            time.textContent = time.textContent.replace(
+                                `${minutes} minutes`, 
+                                `${minutes + 1} minutes`
+                            );
+                        }
+                    }
+                });
+            }
+
+            // Update every minute
+            setInterval(updateActivityTimes, 60000);
+
+            // System status indicator
+            function updateSystemStatus() {
+                const indicators = document.querySelectorAll('.status-indicator');
+                indicators.forEach(indicator => {
+                    if (indicator.classList.contains('warning')) {
+                        // Simulate status change
+                        if (Math.random() > 0.7) {
+                            indicator.classList.remove('warning');
+                            indicator.classList.add('online');
+                            indicator.nextElementSibling.querySelector('.status-description').textContent = 'Issue resolved';
+                        }
+                    }
+                });
+            }
+
+            setInterval(updateSystemStatus, 10000);
+        });
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+                <button class="close-btn">&times;</button>
+            `;
+
+            // Add styles
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: white;
+                padding: 1rem 1.5rem;
+                border-radius: var(--radius);
+                box-shadow: var(--shadow-lg);
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                z-index: 1000;
+                animation: slideIn 0.3s ease-out;
+                border-left: 4px solid ${
+                    type === 'success' ? 'var(--success)' : 
+                    type === 'error' ? 'var(--error)' : 'var(--primary)'
+                };
+            `;
+
+            document.body.appendChild(notification);
+
+            // Remove after 5 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => notification.remove(), 300);
+            }, 5000);
+
+            // Close button
+            notification.querySelector('.close-btn').onclick = () => notification.remove();
+        }
+
+        // Add animation styles
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+            
+            .fade-in {
+                opacity: 0;
+                transform: translateY(10px);
+                transition: opacity 0.5s ease, transform 0.5s ease;
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
