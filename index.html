@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HR Dashboard | Enactus FTU Hanoi</title>
+    <title>HR Dashboard V2 | Enactus FTU Hanoi</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,7 +46,6 @@
             width: 24px; height: 24px; animation: spin 1s linear infinite;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        /* Animation fade in */
         .animate-fade-in { animation: fadeIn 0.4s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -64,7 +63,6 @@
 
         <nav class="flex-1 py-6 space-y-1 overflow-y-auto">
             <div class="px-4 mb-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Main Menu</div>
-            
             <a href="#" onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item active flex items-center px-6 py-3.5 text-sm font-medium transition-all hover:bg-gray-50 group">
                 <i class="fa-solid fa-chart-pie w-6 text-gray-400 group-hover:text-enactus transition-colors"></i>
                 <span>Dashboard</span>
@@ -120,13 +118,13 @@
                         <div class="absolute right-0 top-0 w-24 h-24 bg-blue-50 rounded-bl-full -mr-4 -mt-4"></div>
                         <p class="text-gray-500 text-sm font-medium mb-1">Đang hoạt động</p>
                         <h3 class="text-3xl font-extrabold text-gray-800" id="stat-active">0</h3>
-                    </div>
-                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden">
+                    </div> 
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden">
                         <div class="absolute right-0 top-0 w-24 h-24 bg-purple-50 rounded-bl-full -mr-4 -mt-4"></div>
                         <p class="text-gray-500 text-sm font-medium mb-1">Gen Mới nhất</p>
                         <h3 class="text-3xl font-extrabold text-gray-800">Gen 17</h3>
-                    </div>
-                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden">
+                    </div> 
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden">
                         <div class="absolute right-0 top-0 w-24 h-24 bg-orange-50 rounded-bl-full -mr-4 -mt-4"></div>
                         <p class="text-gray-500 text-sm font-medium mb-1">Dự án</p>
                         <h3 class="text-3xl font-extrabold text-gray-800">3</h3>
@@ -138,9 +136,21 @@
                         <h3 class="font-bold text-gray-800 mb-6">Nhân sự theo Ban</h3>
                         <div class="h-64"><canvas id="mainChart"></canvas></div>
                     </div>
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                        <h3 class="font-bold text-gray-800 mb-6">Trạng thái</h3>
-                        <div class="h-64 flex justify-center"><canvas id="statusChart"></canvas></div>
+                    
+                    <div class="flex flex-col gap-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <h3 class="font-bold text-gray-800 mb-6">Trạng thái</h3>
+                            <div class="h-48 flex justify-center"><canvas id="statusChart"></canvas></div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex-1 flex flex-col">
+                            <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-cake-candles text-pink-500"></i> Sinh nhật tháng này
+                            </h3>
+                            <div class="flex-1 overflow-y-auto max-h-[300px] pr-2 space-y-3" id="birthday-list">
+                                <p class="text-xs text-gray-400 italic text-center py-4">Đang tải...</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -167,6 +177,7 @@
                                     <th class="px-6 py-4">Ban</th>
                                     <th class="px-6 py-4">Vị trí</th>
                                     <th class="px-6 py-4 text-center">Trạng thái</th>
+                                    <th class="px-6 py-4 text-center">Thao tác</th> 
                                 </tr>
                             </thead>
                             <tbody id="member-table-body" class="text-sm divide-y divide-gray-100"></tbody>
@@ -208,11 +219,11 @@
     <div id="modal-backdrop" class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-40 hidden transition-opacity opacity-0"></div>
     <div id="add-modal" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white w-full max-w-2xl rounded-2xl shadow-2xl z-50 hidden scale-95 transition-all duration-300 opacity-0">
         <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-2xl">
-            <h3 class="text-lg font-bold text-gray-800">Thêm Thành viên</h3>
+            <h3 class="text-lg font-bold text-gray-800" id="modal-title">Thêm Thành viên</h3>
             <button onclick="closeModal()" class="w-8 h-8 rounded-full hover:bg-red-50 hover:text-red-500 flex items-center justify-center transition"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <form id="add-form" onsubmit="submitForm(event)" class="p-8">
-            <div class="grid grid-cols-2 gap-6 mb-6">
+            <input type="hidden" id="inp-id" value=""> <div class="grid grid-cols-2 gap-6 mb-6">
                 <div class="space-y-4">
                     <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Họ tên *</label><input type="text" id="inp-name" required class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-enactus outline-none"></div>
                     <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Ngày sinh *</label><input type="date" id="inp-dob" required class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-enactus outline-none"></div>
@@ -221,6 +232,7 @@
                             <option value="MD">Truyền thông (MD)</option><option value="ER">Đối ngoại (ER)</option><option value="HR">Nhân sự (HR)</option><option value="PD">Dự án (PD)</option>
                         </select>
                     </div>
+                    <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Số điện thoại</label><input type="tel" id="inp-phone" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-enactus outline-none"></div>
                 </div>
                 <div class="space-y-4">
                     <div class="grid grid-cols-2 gap-4">
@@ -232,14 +244,16 @@
                         </div>
                     </div>
                     <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Email cá nhân</label><input type="email" id="inp-email" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-enactus outline-none"></div>
-                    <div><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Role</label>
+                    <div id="role-group"><label class="block text-xs font-bold text-gray-500 uppercase mb-1">Role (Tài khoản)</label>
                         <select id="inp-role" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-enactus outline-none">
                             <option value="Member">Member</option><option value="Admin">Admin</option><option value="Super Admin">Super Admin</option>
                         </select>
                     </div>
                 </div>
             </div>
-            <div class="bg-yellow-50 p-4 rounded-xl flex gap-3 mb-6 text-sm text-gray-600"><i class="fa-solid fa-lightbulb text-enactus mt-0.5"></i><div><span class="font-bold">Auto:</span> ID (MD.17.2507) & User (tuhm@enactusftuhanoi.id.vn) & Pass (Enactus@123)</div></div>
+            
+            <div id="auto-note" class="bg-yellow-50 p-4 rounded-xl flex gap-3 mb-6 text-sm text-gray-600"><i class="fa-solid fa-lightbulb text-enactus mt-0.5"></i><div><span class="font-bold">Auto:</span> ID (MD.17.2507) & User (<a href="#" class="text-blue-600">user.enactusftu@gmail.com</a>) & Pass (Enactus@123)</div></div>
+            
             <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
                 <button type="button" onclick="closeModal()" class="px-5 py-2.5 rounded-lg border border-gray-200 text-gray-600 font-medium hover:bg-gray-50">Hủy</button>
                 <button type="submit" class="px-5 py-2.5 rounded-lg bg-enactus text-white font-bold hover:bg-enactus-hover shadow-lg">Xác nhận</button>
@@ -247,34 +261,25 @@
         </form>
     </div>
 
-    <script>
-        // 1. SUPABASE CONFIG
-        // Đã tích hợp sẵn key bạn gửi, không cần sửa đổi
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // CONFIG
         const SB_URL = 'https://tkagnktiqdstmsycgamk.supabase.co';
         const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRrYWdua3RpcWRzdG1zeWNnYW1rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk5NjY3MzUsImV4cCI6MjA4NTU0MjczNX0.AQTs-WeQ6zMenItpO9Fe1kSTw7XU53sv8JU6A04iLXg';
-        
-        // Đổi tên biến thành supabaseClient để tránh trùng lặp
         const supabaseClient = window.supabase.createClient(SB_URL, SB_KEY);
 
-        // 2. LOGIC
         let membersData = [], accountsData = [];
 
         document.getElementById('current-date').innerText = new Date().toLocaleDateString('vi-VN', {weekday:'long', day:'2-digit', month:'2-digit', year:'numeric'});
 
-        function showLoading(show) {
-            document.getElementById('loading-overlay').classList.toggle('hidden', !show);
-        }
-
+        function showLoading(show) { document.getElementById('loading-overlay').classList.toggle('hidden', !show); }
+        function removeTones(str) { return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase(); }
+        
         function switchTab(tab) {
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             document.getElementById(`nav-${tab}`).classList.add('active');
             document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
             document.getElementById(`view-${tab}`).classList.remove('hidden');
             document.getElementById('page-title').innerText = tab === 'dashboard' ? 'Tổng quan' : (tab === 'members' ? 'Thành viên' : 'Tài khoản');
-        }
-
-        function removeTones(str) {
-            return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase();
         }
 
         function genId(dept, gen, dob) {
@@ -287,12 +292,10 @@
             if (!clean.length) return 'user'+Math.floor(Math.random()*999);
             let base = clean[clean.length-1];
             for(let i=0; i<clean.length-1; i++) base += clean[i][0];
-            
             let user = base, count = 0, isUnique = false;
             while(!isUnique) {
                 const { data } = await supabaseClient.from('accounts').select('username').eq('username', user);
-                if(data && data.length) user = base + (++count);
-                else isUnique = true;
+                if(data && data.length) user = base + (++count); else isUnique = true;
             }
             return user;
         }
@@ -302,22 +305,17 @@
             try {
                 const { data: m } = await supabaseClient.from('members').select('*').order('created_at',{ascending:false});
                 membersData = m || [];
-                
                 const { data: a } = await supabaseClient.from('accounts').select('*, members(full_name)').order('created_at',{ascending:false});
                 accountsData = a || [];
-
                 renderAll();
-            } catch (e) {
-                Swal.fire('Lỗi', e.message, 'error');
-            } finally {
-                showLoading(false);
-            }
+            } catch (e) { Swal.fire('Lỗi', e.message, 'error'); } finally { showLoading(false); }
         }
 
         async function submitForm(e) {
             e.preventDefault();
             showLoading(true);
             try {
+                const editId = document.getElementById('inp-id').value;
                 const vals = {
                     name: document.getElementById('inp-name').value,
                     dob: document.getElementById('inp-dob').value,
@@ -325,35 +323,80 @@
                     gen: document.getElementById('inp-gen').value,
                     pos: document.getElementById('inp-pos').value,
                     email: document.getElementById('inp-email').value,
+                    phone: document.getElementById('inp-phone').value,
                     role: document.getElementById('inp-role').value
                 };
 
-                const mid = genId(vals.dept, vals.gen, vals.dob);
-                const user = await genUser(vals.name);
+                if (editId) {
+                    // Update
+                    const { error } = await supabaseClient.from('members').update({
+                        full_name: vals.name, dob: vals.dob, gen: vals.gen,
+                        department: vals.dept, position: vals.pos, email_personal: vals.email,
+                        phone: vals.phone
+                    }).eq('id', editId);
+                    if(error) throw error;
+                    Swal.fire('Cập nhật thành công', '', 'success');
+                } else {
+                    // Create
+                    const mid = genId(vals.dept, vals.gen, vals.dob);
+                    const user = await genUser(vals.name);
+                    const workEmail = `${user}.enactusftu@gmail.com`;
 
-                // Insert Member
-                const { data: newM, error: e1 } = await supabaseClient.from('members').insert([{
-                    member_code: mid, full_name: vals.name, dob: vals.dob, gen: vals.gen,
-                    department: vals.dept, position: vals.pos, email_personal: vals.email, 
-                    email_work: `${user}@enactusftuhanoi.id.vn`, status: 'Active'
-                }]).select();
-                if(e1) throw e1;
+                    const { data: newM, error: e1 } = await supabaseClient.from('members').insert([{
+                        member_code: mid, full_name: vals.name, dob: vals.dob, gen: vals.gen,
+                        department: vals.dept, position: vals.pos, email_personal: vals.email,
+                        phone: vals.phone, 
+                        email_work: workEmail, status: 'Active'
+                    }]).select();
+                    if(e1) throw e1;
 
-                // Insert Account
-                const { error: e2 } = await supabaseClient.from('accounts').insert([{
-                    member_id: newM[0].id, username: user, password: 'Enactus@123',
-                    role: vals.role, is_active: true
-                }]);
-                if(e2) throw e2;
-
+                    const { error: e2 } = await supabaseClient.from('accounts').insert([{
+                        member_id: newM[0].id, username: user, password: 'Enactus@123',
+                        role: vals.role, is_active: true
+                    }]);
+                    if(e2) throw e2;
+                    Swal.fire('Thành công', `Đã tạo ${vals.name}<br>Email: ${workEmail}`, 'success');
+                }
                 closeModal();
-                Swal.fire('Thành công', `Đã tạo ${vals.name}<br>ID: ${mid}<br>User: ${user}`, 'success');
                 fetchData();
-            } catch (err) {
-                Swal.fire('Lỗi', err.message, 'error');
-            } finally {
+            } catch (err) { Swal.fire('Lỗi', err.message, 'error'); } finally { showLoading(false); }
+        }
+
+        async function deleteMember(id) {
+            const res = await Swal.fire({title:'Xóa thành viên?', text:"Không thể hoàn tác!", icon:'warning', showCancelButton:true, confirmButtonColor:'#d33', confirmButtonText:'Xóa', cancelButtonText:'Hủy'});
+            if (res.isConfirmed) {
+                showLoading(true);
+                const { error } = await supabaseClient.from('members').delete().eq('id', id);
                 showLoading(false);
+                if (error) Swal.fire('Lỗi', error.message, 'error'); else { Swal.fire('Đã xóa', '', 'success'); fetchData(); }
             }
+        }
+
+        function editMember(id) {
+            const m = membersData.find(x => x.id === id);
+            if(!m) return;
+            openModal(true);
+            document.getElementById('modal-title').innerText = 'Cập nhật Thành viên';
+            document.getElementById('inp-id').value = m.id;
+            document.getElementById('inp-name').value = m.full_name;
+            document.getElementById('inp-dob').value = m.dob;
+            document.getElementById('inp-dept').value = m.department;
+            document.getElementById('inp-gen').value = m.gen;
+            document.getElementById('inp-pos').value = m.position;
+            document.getElementById('inp-email').value = m.email_personal || '';
+            document.getElementById('inp-phone').value = m.phone || '';
+            document.getElementById('role-group').classList.add('hidden');
+            document.getElementById('auto-note').classList.add('hidden');
+        }
+
+        function viewMember(id) {
+            const m = membersData.find(x => x.id === id);
+            if(!m) return;
+            Swal.fire({
+                title: `<span class="text-enactus">${m.full_name}</span>`,
+                html: `<div class="text-left space-y-2 text-sm"><p><strong>Mã TV:</strong> ${m.member_code}</p><p><strong>Ban:</strong> ${m.department} - Gen ${m.gen}</p><p><strong>Vị trí:</strong> ${m.position}</p><p><strong>Ngày sinh:</strong> ${new Date(m.dob).toLocaleDateString('vi-VN')}</p><p><strong>Email công việc:</strong> ${m.email_work}</p><p><strong>Email cá nhân:</strong> ${m.email_personal || 'N/A'}</p><p><strong>SĐT:</strong> ${m.phone || 'N/A'}</p><p><strong>Trạng thái:</strong> ${m.status}</p></div>`,
+                confirmButtonColor: '#FFC107'
+            });
         }
 
         async function resetPass(id) {
@@ -362,75 +405,76 @@
                 showLoading(true);
                 const { error } = await supabaseClient.from('accounts').update({password:'Enactus@123'}).eq('id',id);
                 showLoading(false);
-                if(!error) Swal.fire('Xong', 'Đã reset thành công', 'success');
+                if(!error) Swal.fire('Xong', 'Đã reset', 'success');
             }
         }
 
         function renderAll() {
-            // Stats
             document.getElementById('stat-total').innerText = membersData.length;
             document.getElementById('stat-active').innerText = membersData.filter(m=>m.status==='Active').length;
-            
-            // Charts
+            renderBirthdays();
+
             const depts = {MD:0,ER:0,HR:0,PD:0};
             membersData.forEach(m => { if(depts[m.department]!==undefined) depts[m.department]++ });
             
             if(window.c1) window.c1.destroy();
-            window.c1 = new Chart(document.getElementById('mainChart'), {
-                type:'bar', data:{labels:['MD','ER','HR','PD'], datasets:[{data:[depts.MD,depts.ER,depts.HR,depts.PD], backgroundColor:['#3B82F6','#EC4899','#F59E0B','#6366F1'], borderRadius:6}]}, options:{plugins:{legend:{display:false}}, scales:{y:{grid:{display:false}},x:{grid:{display:false}}}}
-            });
+            window.c1 = new Chart(document.getElementById('mainChart'), { type:'bar', data:{labels:['MD','ER','HR','PD'], datasets:[{data:[depts.MD,depts.ER,depts.HR,depts.PD], backgroundColor:['#3B82F6','#EC4899','#F59E0B','#6366F1'], borderRadius:6}]}, options:{plugins:{legend:{display:false}}, scales:{y:{grid:{display:false}},x:{grid:{display:false}}}}});
             
             if(window.c2) window.c2.destroy();
-            window.c2 = new Chart(document.getElementById('statusChart'), {
-                type:'doughnut', data:{labels:['Active','Inactive'], datasets:[{data:[document.getElementById('stat-active').innerText, membersData.length - parseInt(document.getElementById('stat-active').innerText)], backgroundColor:['#10B981','#E5E7EB'], borderWidth:0}]}, options:{cutout:'75%', plugins:{legend:{position:'bottom'}}}
-            });
+            window.c2 = new Chart(document.getElementById('statusChart'), { type:'doughnut', data:{labels:['Active','Inactive'], datasets:[{data:[document.getElementById('stat-active').innerText, membersData.length - parseInt(document.getElementById('stat-active').innerText)], backgroundColor:['#10B981','#E5E7EB'], borderWidth:0}]}, options:{cutout:'75%', plugins:{legend:{position:'bottom'}}}});
 
-            // Tables
-            renderMembers();
-            renderAccounts();
+            renderMembers(); renderAccounts();
+        }
+
+        function renderBirthdays() {
+            const currentMonth = new Date().getMonth() + 1;
+            const bdays = membersData.filter(m => { if(!m.dob) return false; const d = new Date(m.dob); return (d.getMonth() + 1) === currentMonth; }).sort((a,b) => new Date(a.dob).getDate() - new Date(b.dob).getDate());
+            const container = document.getElementById('birthday-list');
+            if(bdays.length === 0) {
+                container.innerHTML = `<div class="text-center py-6"><i class="fa-solid fa-gift text-gray-200 text-3xl mb-2"></i><p class="text-xs text-gray-400">Không có sinh nhật trong tháng ${currentMonth}</p></div>`;
+            } else {
+                container.innerHTML = bdays.map(m => {
+                    const date = new Date(m.dob);
+                    return `<div class="flex items-center p-3 rounded-lg bg-gray-50 hover:bg-yellow-50 transition border border-gray-100"><div class="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center font-bold text-enactus shadow-sm mr-3">${date.getDate()}</div><div><p class="text-sm font-bold text-gray-800">${m.full_name}</p><p class="text-xs text-gray-500">${m.department} - Gen ${m.gen}</p></div></div>`;
+                }).join('');
+            }
         }
 
         function renderMembers() {
             const term = document.getElementById('member-search').value.toLowerCase();
             const list = membersData.filter(m => m.full_name.toLowerCase().includes(term) || m.member_code.toLowerCase().includes(term));
-            
             document.getElementById('member-empty').classList.toggle('hidden', list.length > 0);
             document.getElementById('member-table-body').innerHTML = list.map(m => {
-                const colors = {'MD':'blue','ER':'pink','HR':'yellow','PD':'indigo'};
-                const c = colors[m.department] || 'gray';
+                const colors = {'MD':'blue','ER':'pink','HR':'yellow','PD':'indigo'}; const c = colors[m.department] || 'gray';
                 return `<tr class="hover:bg-gray-50 transition border-b border-gray-50">
                     <td class="px-6 py-4 font-medium text-gray-800">${m.full_name}</td>
                     <td class="px-6 py-4"><span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs font-mono font-bold">${m.member_code}</span><div class="text-xs text-gray-400 mt-1">Gen ${m.gen}</div></td>
                     <td class="px-6 py-4"><span class="bg-${c}-50 text-${c}-600 border border-${c}-100 px-2 py-1 rounded-full text-xs font-bold">${m.department}</span></td>
                     <td class="px-6 py-4 text-gray-600">${m.position}</td>
                     <td class="px-6 py-4 text-center"><span class="w-2 h-2 rounded-full inline-block mr-1 ${m.status==='Active'?'bg-green-500':'bg-gray-300'}"></span>${m.status}</td>
+                    <td class="px-6 py-4 text-center"><div class="flex items-center justify-center gap-2">
+                        <button onclick="viewMember('${m.id}')" class="w-8 h-8 rounded hover:bg-blue-50 text-blue-500 flex items-center justify-center transition" title="Xem"><i class="fa-solid fa-eye"></i></button>
+                        <button onclick="editMember('${m.id}')" class="w-8 h-8 rounded hover:bg-orange-50 text-orange-500 flex items-center justify-center transition" title="Sửa"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="deleteMember('${m.id}')" class="w-8 h-8 rounded hover:bg-red-50 text-red-500 flex items-center justify-center transition" title="Xóa"><i class="fa-solid fa-trash"></i></button>
+                    </div></td>
                 </tr>`
             }).join('');
         }
-
         function renderAccounts() {
             const term = document.getElementById('account-search').value.toLowerCase();
             const list = accountsData.filter(a => a.username.toLowerCase().includes(term));
-            
-            document.getElementById('account-table-body').innerHTML = list.map(a => 
-                `<tr class="hover:bg-gray-50 transition border-b border-gray-50">
-                    <td class="px-6 py-4 font-bold text-gray-800">${a.username}<div class="text-xs font-normal text-gray-400">${a.username}@enactusftuhanoi.id.vn</div></td>
-                    <td class="px-6 py-4"><span class="bg-gray-50 border border-gray-200 px-2 py-1 rounded text-xs font-medium">${a.role}</span></td>
-                    <td class="px-6 py-4 text-gray-600">${a.members ? a.members.full_name : '<span class="text-red-400 italic text-xs">Chưa liên kết</span>'}</td>
-                    <td class="px-6 py-4 text-center text-lg">${a.is_active ? '<i class="fa-solid fa-circle-check text-green-500"></i>' : '<i class="fa-solid fa-circle-xmark text-red-400"></i>'}</td>
-                    <td class="px-6 py-4 text-right"><button onclick="resetPass('${a.id}')" class="text-xs border border-gray-200 rounded px-2 py-1 hover:border-orange-400 hover:text-orange-500 transition">Reset</button></td>
-                </tr>`
-            ).join('');
+            document.getElementById('account-table-body').innerHTML = list.map(a => `<tr class="hover:bg-gray-50 transition border-b border-gray-50"><td class="px-6 py-4 font-bold text-gray-800">${a.username}<div class="text-xs font-normal text-gray-400">${a.username}.enactusftu@gmail.com</div></td><td class="px-6 py-4"><span class="bg-gray-50 border border-gray-200 px-2 py-1 rounded text-xs font-medium">${a.role}</span></td><td class="px-6 py-4 text-gray-600">${a.members ? a.members.full_name : '<span class="text-red-400 italic text-xs">Chưa liên kết</span>'}</td><td class="px-6 py-4 text-center text-lg">${a.is_active ? '<i class="fa-solid fa-circle-check text-green-500"></i>' : '<i class="fa-solid fa-circle-xmark text-red-400"></i>'}</td><td class="px-6 py-4 text-right"><button onclick="resetPass('${a.id}')" class="text-xs border border-gray-200 rounded px-2 py-1 hover:border-orange-400 hover:text-orange-500 transition">Reset</button></td></tr>`).join('');
         }
-
-        function filterMembers() { renderMembers(); }
-        function filterAccounts() { renderAccounts(); }
-        function openModal() { document.getElementById('modal-backdrop').classList.remove('hidden','opacity-0'); document.getElementById('add-modal').classList.remove('hidden','opacity-0','scale-95'); document.getElementById('add-modal').classList.add('opacity-100','scale-100'); }
+        
+        function filterMembers() { renderMembers(); } function filterAccounts() { renderAccounts(); }
+        function openModal(isEdit = false) { 
+            document.getElementById('modal-backdrop').classList.remove('hidden','opacity-0'); document.getElementById('add-modal').classList.remove('hidden','opacity-0','scale-95'); document.getElementById('add-modal').classList.add('opacity-100','scale-100');
+            if(!isEdit) { document.getElementById('add-form').reset(); document.getElementById('modal-title').innerText = 'Thêm Thành viên'; document.getElementById('inp-id').value = ''; document.getElementById('role-group').classList.remove('hidden'); document.getElementById('auto-note').classList.remove('hidden'); document.getElementById('inp-gen').value = 17; }
+        }
         function closeModal() { document.getElementById('add-modal').classList.remove('opacity-100','scale-100'); document.getElementById('add-modal').classList.add('opacity-0','scale-95'); document.getElementById('modal-backdrop').classList.add('opacity-0'); setTimeout(()=>{ document.getElementById('add-modal').classList.add('hidden'); document.getElementById('modal-backdrop').classList.add('hidden'); },300); }
         function logout() { Swal.fire({title:'Đăng xuất?',icon:'question',showCancelButton:true,confirmButtonColor:'#FFC107'}).then(r=>{if(r.isConfirmed)location.reload()}) }
         function exportExcel(t) { const ws=XLSX.utils.json_to_sheet(t==='members'?membersData:accountsData), wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,"Data"); XLSX.writeFile(wb,`Export_${t}.xlsx`); }
-
-        // Start
+        
         document.addEventListener('DOMContentLoaded', fetchData);
     </script>
 </body>
